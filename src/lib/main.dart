@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'todolistitem.dart';
+import 'todoitem.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,7 +30,7 @@ class Wrapper extends StatefulWidget {
 
 class _WrapperState extends State<Wrapper> {
   int _currentIndex = 0;
-  
+
   final _pages = [
     const HomePage(),
     const TasksPage(),
@@ -47,10 +49,11 @@ class _WrapperState extends State<Wrapper> {
         currentIndex: _currentIndex,
         onTap: _onTap,
         items: const [
-          BottomNavigationBarItem(icon: Icon(null), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(null), label: "Tasks")],
-        ),
-        body: _pages[_currentIndex],
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: "Tasks")
+        ],
+      ),
+      body: _pages[_currentIndex],
     );
   }
 }
@@ -64,14 +67,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: const Text("Hello, World!"),
+      body: const Center(
+        child: Text("There's nothing to see here right now."),
+      ),
     );
   }
 }
@@ -85,17 +89,27 @@ class TasksPage extends StatefulWidget {
 }
 
 class _TasksPageState extends State<TasksPage> {
+  final List<ToDoListItem> _items = [
+    ToDoListItem(
+        item:
+            ToDoItem(title: "Task Title", description: "My task's description.", taskDeadline: DateTime.now())),
+  ];
+
+  void _addTask() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        tooltip: "Add a new Task",
+        onPressed: _addTask,
+      ),
     );
   }
-}
-
-/// Represents a task created by the user.
-class ToDoItem {
-  ToDoItem(this.title, this.description);
-
-  String title;
-  String description;
 }
