@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
-import 'todolistitem.dart';
-import 'todoitem.dart';
+import 'todo_list_item.dart';
+import 'todo_item.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  static List<ToDoItem> tasks = [];
+
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'ToDo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const Wrapper(),
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const Shell(),
     );
   }
 }
 
-class Wrapper extends StatefulWidget {
-  const Wrapper({Key? key}) : super(key: key);
-
+class Shell extends StatefulWidget {
+  const Shell({Key? key}) : super(key: key);
+  
   @override
-  State<Wrapper> createState() => _WrapperState();
+  State<Shell> createState() => _ShellState();
 }
 
-class _WrapperState extends State<Wrapper> {
+class _ShellState extends State<Shell> {
   int _currentIndex = 0;
 
   final _pages = [
@@ -50,7 +50,7 @@ class _WrapperState extends State<Wrapper> {
         onTap: _onTap,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: "Tasks")
+          BottomNavigationBarItem(icon: Icon(Icons.task), label: "Tasks")
         ],
       ),
       body: _pages[_currentIndex],
@@ -89,14 +89,29 @@ class TasksPage extends StatefulWidget {
 }
 
 class _TasksPageState extends State<TasksPage> {
-  final List<ToDoListItem> _items = [
-    ToDoListItem(
-        item:
-            ToDoItem(title: "Task Title", description: "My task's description.", taskDeadline: DateTime.now())),
-  ];
+  List<ToDoListItem> _listItems = [];
+  
+  _TasksPageState() {
+    _listItems = MyApp.tasks.map((e) => ToDoListItem(item: e)).toList();
+  }
 
   void _addTask() {
-    setState(() {});
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const TaskEditPage()));
+  }
+
+  void _onListItemTap() {
+    const TaskEditPage();
+  }
+
+  Widget _todoListItemBuilder(BuildContext context, int index) {
+    final item = _listItems[index];
+    return ListTile(
+      title: item.buildTitle(),
+      subtitle: item.buildSubtitle(),
+      isThreeLine: true,
+      onTap: _onListItemTap,
+    );
   }
 
   @override
@@ -105,10 +120,40 @@ class _TasksPageState extends State<TasksPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
+      body: ListView.builder(
+        itemBuilder: _todoListItemBuilder,
+        itemCount: _listItems.length,
+      ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         tooltip: "Add a new Task",
         onPressed: _addTask,
+      ),
+    );
+  }
+}
+
+class TaskEditPage extends StatefulWidget {
+  const TaskEditPage({Key? key}) : super(key: key);
+  final String title = "Edit Task";
+
+  @override
+  State<TaskEditPage> createState() => _TaskEditState();
+}
+
+class _TaskEditState extends State<TaskEditPage> {
+  void _onCheckTap() {
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+        actions: [
+          IconButton(onPressed: _onCheckTap, icon: const Icon(Icons.check))
+        ],
       ),
     );
   }
