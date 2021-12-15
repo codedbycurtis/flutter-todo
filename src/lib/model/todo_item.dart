@@ -1,5 +1,7 @@
 /// Represents a task created by the user.
 class ToDoItem {
+  /// A unique identifier for this task.
+  int id;
 
   /// The title of the task.
   String title;
@@ -8,7 +10,8 @@ class ToDoItem {
   String description;
 
   /// The target date for the task's completion.
-  DateTime taskDeadline;
+  DateTime deadline;
 
-  ToDoItem({required this.title, required this.description, required this.taskDeadline});
+  /// Creates a [ToDoItem].
+  ToDoItem({required this.id, required this.title, required this.description, required this.deadline});
 }
