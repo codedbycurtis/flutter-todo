@@ -4,6 +4,7 @@ import '../app.dart';
 import 'task_edit_view.dart';
 
 class TasksPage extends StatefulWidget {
+  /// Creates a [TasksPage].
   const TasksPage({Key? key}) : super(key: key);
   final String title = "Tasks";
 
@@ -21,7 +22,7 @@ class _TasksPageState extends State<TasksPage> {
   }
 
   void _onListItemTap() {
-    const TaskEditPage();
+    
   }
 
   Widget _todoListItemBuilder(BuildContext context, int index) {

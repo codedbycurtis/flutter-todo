@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
+  /// Creates a [HomePage].
   const HomePage({Key? key}) : super(key: key);
   final String title = "Home";
 

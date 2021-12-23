@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'home_view.dart';
 import 'tasks_view.dart';
+import 'settings_view.dart';
 
 class Shell extends StatefulWidget {
+  /// Creates a [Shell].
   const Shell({Key? key}) : super(key: key);
 
   @override
@@ -15,6 +17,7 @@ class _ShellState extends State<Shell> {
   final _pages = [
     const HomePage(),
     const TasksPage(),
+    const SettingsPage(),
   ];
 
   void _onTap(int currentIndex) {
@@ -30,8 +33,18 @@ class _ShellState extends State<Shell> {
         currentIndex: _currentIndex,
         onTap: _onTap,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.task), label: "Tasks")
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined),
+              label: "Home",
+              activeIcon: Icon(Icons.home)),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.task_outlined),
+              label: "Tasks",
+              activeIcon: Icon(Icons.task)),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings_outlined),
+              label: "Settings",
+              activeIcon: Icon(Icons.settings)),
         ],
       ),
       body: _pages[_currentIndex],
